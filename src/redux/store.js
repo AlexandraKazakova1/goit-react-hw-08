@@ -1,6 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Використовуємо localStorage
+import { thunk } from "redux-thunk";
+import { contactsReducer } from "./contacts/slice";
 import { authReducer } from "./auth/slice";
 
 const authPersistConfig = {
@@ -9,10 +20,20 @@ const authPersistConfig = {
   whitelist: ["token"],
 };
 
-export const store = configureStore({
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+
+const store = configureStore({
   reducer: {
-    auth: persistReducer(authPersistConfig, authReducer),
+    auth: persistedAuthReducer,
+    contacts: contactsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(thunk),
 });
 
 export const persistor = persistStore(store);
+export default store;

@@ -1,0 +1,10 @@
+.link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.active {
+  font-weight: bold;
+  color: rgb(73, 71, 71);
+}

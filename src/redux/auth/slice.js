@@ -42,16 +42,5 @@ const authSlice = createSlice({
       });
   },
 });
-const contactsSlice = createSlice({
-  name: "contacts",
-  initialState: { items: [], isLoading: false, error: null },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(logout.fulfilled, (state) => {
-      state.items = [];
-    });
-  },
-});
 
 export const authReducer = authSlice.reducer;
-export const contactsReducer = contactsSlice.reducer;
