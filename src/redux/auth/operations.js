@@ -13,37 +13,55 @@ const clearAuthHeader = () => {
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (credentials) => {
-    const { data } = await axios.post("/users/signup", credentials);
-    setAuthHeader(data.token);
-    return data;
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/users/signup", credentials);
+      setAuthHeader(data.token);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
   }
 );
 
-export const login = createAsyncThunk("auth/login", async (credentials) => {
-  const { data } = await axios.post("/users/login", credentials);
-  setAuthHeader(data.token);
-  return data;
-});
+export const login = createAsyncThunk(
+  "auth/login",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/users/login", credentials);
+      setAuthHeader(data.token);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await axios.post("/users/logout");
-  clearAuthHeader();
-});
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await axios.post("/users/logout");
+      clearAuthHeader();
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
-  async (_, { getState }) => {
+  async (_, { getState, rejectWithValue }) => {
     const state = getState();
     const token = state.auth.token;
-    if (!token) return;
+    if (!token) return rejectWithValue("No token available");
     setAuthHeader(token);
     try {
       const { data } = await axios.get("/users/current");
       return data;
     } catch (error) {
       clearAuthHeader();
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );

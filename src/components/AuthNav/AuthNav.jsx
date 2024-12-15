@@ -4,10 +4,20 @@ import s from "./AuthNav.module.css";
 const AuthNav = () => {
   return (
     <div>
-      <NavLink to="/register" className={s.link}>
+      <NavLink
+        to="/register"
+        className={({ isActive }) =>
+          isActive ? `${s.link} ${s.active}` : s.link
+        }
+      >
         Register
       </NavLink>
-      <NavLink to="/login" className={s.link}>
+      <NavLink
+        to="/login"
+        className={({ isActive }) =>
+          isActive ? `${s.link} ${s.active}` : s.link
+        }
+      >
         Login
       </NavLink>
     </div>

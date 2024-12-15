@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import Layout from "./components/Layout/Layout";
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import { Toaster } from "react-hot-toast";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const RegistrationPage = lazy(
@@ -14,6 +15,7 @@ const ContactsPage = lazy(() => import("./pages/ContactsPage/ContactsPage"));
 const App = () => {
   return (
     <Suspense fallback={<p>Loading...</p>}>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />

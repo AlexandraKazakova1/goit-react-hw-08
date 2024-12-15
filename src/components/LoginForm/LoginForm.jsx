@@ -1,13 +1,17 @@
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/auth/operations";
+import { toast } from "react-hot-toast";
 import s from "./LoginForm.module.css";
+import { useState } from "react";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    setIsLoading(true);
 
     dispatch(
       login({
@@ -17,27 +21,38 @@ const LoginForm = () => {
     )
       .unwrap()
       .then(() => {
-        console.log("login success");
+        toast.success("Login successful!");
       })
       .catch(() => {
-        console.log("login error");
+        toast.error("Login failed. Please check your credentials."); // Повідомлення про помилку
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
 
     form.reset();
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit} autoComplete="off">
-      <label className={s.label}>
-        Email
-        <input type="email" name="email" />
-      </label>
-      <label className={s.label}>
-        Password
-        <input type="password" name="password" />
-      </label>
-      <button type="submit">Log In</button>
-    </form>
+    <>
+      <form className={s.form} onSubmit={handleSubmit} autoComplete="off">
+        <label className={s.label}>
+          Email
+          <input type="email" name="email" placeholder="Enter your email" />
+        </label>
+        <label className={s.label}>
+          Password
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+          />
+        </label>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Log In"}
+        </button>
+      </form>
+    </>
   );
 };
 
