@@ -3,10 +3,12 @@ import { login } from "../../redux/auth/operations";
 import { toast } from "react-hot-toast";
 import s from "./LoginForm.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +22,9 @@ const LoginForm = () => {
       })
     )
       .unwrap()
+      .then(() => {
+        navigate("/contacts");
+      })
       .then(() => {
         toast.success("Login successful!");
       })

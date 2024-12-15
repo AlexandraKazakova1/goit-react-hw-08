@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import AppBar from "../AppBar/AppBar";
 import { refreshUser } from "../../redux/auth/operations";
 import { selectIsRefreshing } from "../../redux/auth/selectors";
+import s from "./Layout.module.css";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,12 @@ const Layout = () => {
   }
 
   return (
-    <>
+    <div className={s.container}>
       <AppBar />
-      <main>
+      <main className={s.main}>
         <Outlet />
       </main>
-    </>
+    </div>
   );
 };
 
