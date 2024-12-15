@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage"; // Використовуємо
 import { thunk } from "redux-thunk";
 import { contactsReducer } from "./contacts/slice";
 import { authReducer } from "./auth/slice";
+import filtersReducer from "./filters/slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -26,6 +27,7 @@ const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
     contacts: contactsReducer,
+    filters: filtersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
