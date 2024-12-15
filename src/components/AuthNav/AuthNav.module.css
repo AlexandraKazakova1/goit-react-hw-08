@@ -1,11 +1,21 @@
 .link {
-  display: inline-block;
   text-decoration: none;
-  padding: 12px;
-  font-weight: 700;
-  color: #2a363b;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 5px;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.link.active {
-  color: #e84a5f;
+.link:hover {
+  color: #7eb8f7;
+}
+
+.active {
+  font-weight: bold;
+  color: #7eb8f7;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
 }

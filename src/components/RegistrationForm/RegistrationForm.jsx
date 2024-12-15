@@ -1,9 +1,11 @@
 import { useDispatch } from "react-redux";
 import { register } from "../../redux/auth/operations";
 import s from "./RegistrationForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +17,14 @@ const RegistrationForm = () => {
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/contacts");
+      })
+      .catch(() => {
+        console.error("Registration failed");
+      });
 
     form.reset();
   };

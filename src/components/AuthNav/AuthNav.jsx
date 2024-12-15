@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import s from "./AuthNav.module.css";
 const AuthNav = () => {
   return (
-    <div>
+    <div className={s.container}>
       <NavLink
         to="/register"
         className={({ isActive }) =>
