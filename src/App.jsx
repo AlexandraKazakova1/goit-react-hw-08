@@ -28,35 +28,35 @@ const App = () => {
   ) : (
     <Suspense fallback={<p>Loading...</p>}>
       <Toaster position="top-right" />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="/register"
-            element={
-              <RestrictedRoute redirectTo="/contacts">
-                <RegistrationPage />
-              </RestrictedRoute>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute redirectTo="/contacts">
-                <LoginPage />
-              </RestrictedRoute>
-            }
-          />
-          <Route
-            path="/contacts"
-            element={
-              <PrivateRoute redirectTo="/login">
-                <ContactsPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Layout>
+
+      <Routes>
+        <Route path="/" element={<Layout />}></Route>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute redirectTo="/contacts">
+              <RegistrationPage />
+            </RestrictedRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts">
+              <LoginPage />
+            </RestrictedRoute>
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login">
+              <ContactsPage />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </Suspense>
   );
 };

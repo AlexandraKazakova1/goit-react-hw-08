@@ -49,11 +49,9 @@ const authSlice = createSlice({
         state.user = payload;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.error = null;
       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
-        state.error = payload;
       });
   },
 });

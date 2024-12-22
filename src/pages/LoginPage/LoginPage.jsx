@@ -4,10 +4,10 @@ import s from "./LoginPage.module.css";
 
 const LoginPage = () => {
   return (
-    <div>
+    <main className={s.container}>
       <h1 className={s.title}>Login</h1>
       <LoginForm />
-    </div>
+    </main>
   );
 };
 

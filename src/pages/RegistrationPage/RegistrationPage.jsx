@@ -1,6 +1,6 @@
 import React from "react";
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
-import s from "./RegistratinPage.module.css";
+import s from "./RegistrationPage.module.css";
 
 const RegistrationPage = () => {
   return (
