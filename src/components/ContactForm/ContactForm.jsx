@@ -23,12 +23,14 @@ const ContactForm = () => {
     <div className={s.wrapper}>
       <form className={s.form} onSubmit={handleSubmit}>
         <input
+          className={s.input}
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
         />
         <input
+          className={s.input}
           type="tel"
           value={number}
           onChange={(e) => setNumber(e.target.value)}

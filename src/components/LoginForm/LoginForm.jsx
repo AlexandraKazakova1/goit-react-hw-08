@@ -49,6 +49,7 @@ const LoginForm = () => {
       <label className={s.label}>
         Email
         <input
+          className={s.input}
           type="email"
           name="email"
           placeholder="Enter your email"
@@ -59,6 +60,7 @@ const LoginForm = () => {
       <label className={s.label}>
         Password
         <input
+          className={s.input}
           type="password"
           name="password"
           placeholder="Enter your password"
@@ -69,7 +71,7 @@ const LoginForm = () => {
       <button
         type="submit"
         disabled={isLoading}
-        className={isLoading ? s.loadingButton : ""}
+        className={isLoading ? s.button : ""}
       >
         {isLoading ? "Logging in..." : "Log In"}
       </button>

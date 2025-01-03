@@ -1,71 +1,55 @@
-import { useDispatch } from "react-redux";
-import { addContact, deleteContact } from "../../redux/contacts/operations";
-import {
-  selectContacts,
-  selectIsLoading,
-} from "../../redux/contacts/selectors";
-import { selectFilteredContacts } from "../../redux/filters/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchContacts } from "../../redux/contacts/operations";
+import ContactForm from "../../components/ContactForm/ContactForm";
+import ContactsList from "../../components/ContactList/ContactList";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import { Container, Typography } from "@mui/material";
+import { selectIsLoading } from "../../redux/contacts/selectors";
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const filteredContacts = useSelector(selectFilteredContacts);
+  const [error, setError] = useState(null);
   const isLoading = useSelector(selectIsLoading);
+
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchContacts())
+      .then((response) => {
+        console.log("Contacts loaded:", response.payload);
+      })
+      .catch((error) => {
+        console.error("Error loading contacts:", error);
+        setError("Failed to load contacts. Please try again later.");
+      });
   }, [dispatch]);
 
-  const handleAddContact = (newContact) => {
-    dispatch(addContact(newContact));
-  };
+  if (error) {
+    return (
+      <Container maxWidth="sm" sx={{ py: 4, textAlign: "center" }}>
+        <Typography variant="h5" color="error">
+          {error}
+        </Typography>
+      </Container>
+    );
+  }
 
-  const handleDeleteContact = (id) => {
-    dispatch(deleteContact(id));
-  };
-
-  const handleFilterChange = (e) => {
-    dispatch(setFilter(e.target.value));
-  };
+  if (isLoading) {
+    return (
+      <Container maxWidth="sm" sx={{ py: 4, textAlign: "center" }}>
+        <Typography variant="h5">Loading Contacts...</Typography>
+      </Container>
+    );
+  }
 
   return (
-    <div>
-      <h1>Contacts</h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const form = e.currentTarget;
-          const name = form.elements.name.value;
-          const phone = form.elements.phone.value;
-          handleAddContact({ name, phone });
-          form.reset();
-        }}
-      >
-        <input type="text" name="name" placeholder="Name" required />
-        <input type="text" name="phone" placeholder="Phone" required />
-        <button type="submit">Add Contact</button>
-      </form>
-
-      <input
-        type="text"
-        placeholder="Search contacts"
-        onChange={handleFilterChange}
-      />
-
-      {isLoading ? (
-        <p>Loading contacts...</p>
-      ) : (
-        <ul>
-          {filteredContacts.map((contact) => (
-            <li key={contact.id}>
-              {contact.name}: {contact.phone}
-              <button onClick={() => handleDeleteContact(contact.id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Container maxWidth="sm" sx={{ py: 4 }}>
+      <Typography variant="h4" align="center" color="aliceblue" gutterBottom>
+        Your Contacts
+      </Typography>
+      <ContactForm />
+      <SearchBox />
+      <ContactsList />
+    </Container>
   );
 };
 
