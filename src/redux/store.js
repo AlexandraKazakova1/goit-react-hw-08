@@ -9,14 +9,14 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Використовуємо localStorage
-import { thunk } from "redux-thunk";
+import storage from "redux-persist/lib/storage";
 import { contactsReducer } from "./contacts/slice";
 import { authReducer } from "./auth/slice";
-import filtersReducer from "./filters/slice";
+import { filtersReducer } from "./filters/slice";
 
 const authPersistConfig = {
   key: "auth",
+  version: 1,
   storage,
   whitelist: ["token"],
 };
@@ -34,7 +34,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(thunk),
+    }),
 });
 
 export const persistor = persistStore(store);
